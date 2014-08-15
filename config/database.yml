@@ -2,3 +2,8 @@ development:
   adapter: postgresql
   database: iugu_donations_development
   host: localhost
+
+production:
+  adapter: postgresql
+  database: iugu_donations_production
+  host: ENV["DATABASE_URL"]
