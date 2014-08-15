@@ -23,7 +23,7 @@ def clamp(value, max)
 end
 
 def set_donation_vars
-  @goal_cents = 500000
+  @goal_cents = 200000
   @goal = to_money(@goal_cents)
 
   @nr_donations = Donation.project("nfe").count
