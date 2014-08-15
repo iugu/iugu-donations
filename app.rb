@@ -10,7 +10,7 @@ require 'global'
 require 'iugu'
 
 Global.configure do |config|
-  config.environment = ENV["RACK_ENV"]
+  config.environment = ENV["RACK_ENV"] || "development"
   config.config_directory = settings.root + '/config/global'
 end
 
