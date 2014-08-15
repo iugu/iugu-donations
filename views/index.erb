@@ -1,0 +1,131 @@
+<div class="alert alert-danger" role="alert" style="display: none; <%= "display: block;" if locals[:error] %>">
+  <strong>Oops!! Aconteceu um problema!!</strong>
+  <% if locals[:charge] %>
+    Ocorreu um erro em sua cobrança. 
+    <% if locals[:charge].respond_to? :message %>
+      <% if locals[:charge].LR == nil %>
+        <%= locals[:charge].message %>
+      <% elsif locals[:charge].LR == "05" %>
+        Transação não Autorizada.
+      <% elsif locals[:charge].LR == "51" %>
+        Saldo Insuficiente.
+      <% else %>
+        <%= locals[:charge].message %>
+      <% end %>
+    <% end %>
+  <% else %>
+    Verifique os dados do formulário e tente novamente.
+  <% end %>
+</div>
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-7">
+    <div class="panel panel-primary">
+      <div class="panel-heading">Projeto Atual: <strong>Gem de NFe em Ruby</strong></div>
+      <div class="panel-body">
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam venenatis commodo tellus non consequat. Etiam dapibus vehicula velit, ut tincidunt nunc dapibus et. Praesent in accumsan augue. Mauris pretium ipsum elit, at volutpat odio volutpat nec. Nulla ultricies tellus vitae semper auctor. Vivamus ac purus neque. Maecenas vitae ante tellus. Etiam ut nunc mattis, sollicitudin eros ut, volutpat neque. Aliquam scelerisque eget arcu ac auctor. Nunc neque arcu, porttitor quis risus nec, vehicula posuere ante. Mauris non eleifend mauris. Cras est odio, eleifend ut suscipit posuere, dapibus ut mauris. Ut tempus enim id vehicula consectetur. Nullam vitae sem mauris. Suspendisse ac lorem pharetra, gravida sapien sed, feugiat lectus. Curabitur blandit nisi ut consequat iaculis.
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-5">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="panel panel-success">
+          <div class="panel-heading">Meta de Doações: <strong><%= @goal %></strong></div>
+          <div class="panel-body">
+            <div class="progress">
+              <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="<%= @donations_cents %>" aria-valuemin="0" aria-valuemax="<%= @goal_cents %>" style="width: <%= @goal_percent %>%">
+                <span><%= @donations %></span>
+              </div>
+              <% if @donations_cents > @goal_cents %>
+                <div class="progress-bar progress-bar-active progress-bar-striped" role="progressbar" aria-valuenow="<%= @stretch_cents %>" aria-valuemin="0" aria-valuemax="<%= @stretch_cents %>" style="width: <%= 100 - @goal_percent %>%">
+                  <span><%= @stretch %></span>
+                </div>
+              <% end %>
+            </div>
+            <div class="row">
+              <div class="col-xs-4 col-md-4">
+                <div><strong>Doadores</strong></div>
+                <span><%= @nr_donations %></span>
+              </div>
+              <div class="col-xs-4 col-md-4">
+                <div><strong>Meta</strong></div>
+                <span><%= @total_goal_percent %>%</span>
+              </div>
+              <div class="col-xs-4 col-md-4">
+                <div><strong>Total</strong></div>
+                <span><%= @total_donations %></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12">
+        <form id="payment-form" action="/" method="POST">
+          <input type="hidden" id="amount_cents" name="amount_cents">
+          <input type="hidden" id="token" name="token">
+          <div class="row">
+            <div class="col-xs-12">
+              <div class="panel panel-default">
+                <div class="panel-body">
+                  <div class="form-group">
+                    <label for="email">E-Mail</label>
+                    <input type="email" class="form-control" name="email" id="email" placeholder="email@email.com">
+                  </div>
+                  <div class="form-group">
+                    <label for="amount">Valor</label>
+                    <input type="currency" class="form-control" id="amount" placeholder="R$ 10,00" data-affixes-stay="true" data-prefix="R$ " data-thousands="." data-decimal="," value="R$ 1,00">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12">
+              <div class="panel panel-default">
+                <div class="panel-body">
+                  <div class="usable-creditcard-form">
+                    <div class="wrapper">
+                      <div class="input-group nmb_a">
+                        <div class="icon ccic-brand"></div>
+                        <input autocomplete="off" class="credit_card_number" data-iugu="number" placeholder="Número do Cartão" type="text" value="" />
+                      </div>
+                      <div class="input-group nmb_b">
+                        <div class="icon ccic-cvv"></div>
+                        <input autocomplete="off" class="credit_card_cvv" data-iugu="verification_value" placeholder="CVV" type="text" value="" />
+                      </div>
+                      <div class="input-group nmb_c">
+                        <div class="icon ccic-name"></div>
+                        <input class="credit_card_name" data-iugu="full_name" placeholder="Titular do Cartão" type="text" value="" />
+                      </div>
+                      <div class="input-group nmb_d">
+                        <div class="icon ccic-exp"></div>
+                        <input autocomplete="off" class="credit_card_expiration" data-iugu="expiration" placeholder="MM/AA" type="text" value="" />
+                      </div>
+                    </div>
+                    <div class="footer">
+                      <img src="http://storage.pupui.com.br/9CA0F40E971643D1B7C8DE46BBC18396/assets/cc-icons.e8f4c6b4db3cc0869fa93ad535acbfe7.png" alt="Visa, Master, Diners. Amex" border="0" />
+                      <a class="iugu-btn" href="http://iugu.com" tabindex="-1"><img src="http://storage.pupui.com.br/9CA0F40E971643D1B7C8DE46BBC18396/assets/payments-by-iugu.1df7caaf6958f1b5774579fa807b5e7f.png" alt="Pagamentos por Iugu" border="0" /></a>
+                    </div>
+                  </div>
+                  <div>
+                    <button id="submit-form" class="btn btn-block btn-success btn-lg" type="submit">Contribuir</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form> 
+      </div>
+    </div>
+  </div>
+</div>
+<div class="well">
+  <h3>Olá, você deseja ajudar a causa open source?</h3>
+  <p>
+    Donec ut risus libero. In eget justo rhoncus, hendrerit elit vitae, tempor leo. Vivamus gravida metus at mi egestas varius. Duis sapien nisi, condimentum at pellentesque ac, gravida sit amet mi. Proin felis odio, egestas eu massa nec, condimentum cursus enim. Nullam accumsan bibendum augue non scelerisque. In tincidunt lobortis magna ac tincidunt. Suspendisse a ornare est. Aliquam fermentum leo quis tristique pharetra. Integer euismod venenatis risus sit amet vehicula. 
+  </p>
+</div>
